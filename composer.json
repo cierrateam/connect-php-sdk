@@ -1,0 +1,19 @@
+{
+  "name": "cierrateam/connect-php-sdk",
+  "description": "Cierra Connect PHP SDK",
+  "autoload": {
+    "psr-4": {
+      "Cierra\\ConnectSdk\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Misha",
+      "email": "mikhail@cierra.de"
+    }
+  ],
+  "require": {
+    "php": "^8.1",
+    "guzzlehttp/guzzle": "^7.7"
+  }
+}
