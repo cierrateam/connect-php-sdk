@@ -10,6 +10,7 @@ use Cierra\ConnectSdk\Exceptions\EntityNotFoundException;
 use Cierra\ConnectSdk\Exceptions\InvalidArgumentException;
 use Cierra\ConnectSdk\Exceptions\NotAuthorizedException;
 use Cierra\ConnectSdk\Exceptions\PlatformNotFoundException;
+use Cierra\ConnectSdk\Exceptions\RequestMissedParamException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ServerException;
@@ -66,6 +67,8 @@ class HttpClient
                         throw new PlatformNotFoundException($errorMessage);
                     case 'invalid_argument_exception':
                         throw new InvalidArgumentException($errorMessage);
+                    case 'request_missed_param_exception':
+                        throw new RequestMissedParamException($errorMessage);
                     default:
                         throw new CierraConnectInternalException($errorMessage);
                 }
