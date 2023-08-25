@@ -17,9 +17,9 @@ class Entity
         $this->name = $name;
     }
 
-    public function addParams(array $params): Entity
+    public function setParam(string $key, $value): Entity
     {
-        $this->params[] = array_merge($this->params, $params);
+        $this->params[$key] = $value;
         return $this;
     }
 
@@ -73,5 +73,19 @@ class Entity
             'entity_props' => $props,
             'params' => $this->params,
         ]);
+    }
+
+    public function triggerEvent(string $name, array $params = [])
+    {
+        $apiResponseData = $this->connect->doApiCall($this->name, 'trigger_event', [
+            'event_name' => $name,
+            'params' => $params ?: $this->params,
+        ]);
+
+        if ($this->asRaw) {
+            return $apiResponseData['response'];
+        } else {
+            return $this->connectConfig->getSingleItemDataDecorator()->decorate($apiResponseData['response']);
+        }
     }
 }
