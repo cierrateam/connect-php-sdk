@@ -17,6 +17,22 @@ class Entity
         $this->name = $name;
     }
 
+    private function defaultResultType(array $apiResponseData)
+    {
+        if ($this->asRaw) {
+            return $apiResponseData['response'];
+        } else {
+            if ($apiResponseData['response']['response_type'] === 'json') {
+                $decodedResponse = json_decode($apiResponseData['response']['response_data'], true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    return $decodedResponse;
+                }
+            }
+        }
+
+        return $apiResponseData['response']['response_data'];
+    }
+
     public function setParam(string $key, $value): Entity
     {
         $this->params[$key] = $value;
@@ -60,19 +76,23 @@ class Entity
 
     public function create(array $props)
     {
-        return $this->connect->doApiCall($this->name, 'create', [
+        $apiResponseData = $this->connect->doApiCall($this->name, 'create', [
             'entity_props' => $props,
             'params' => $this->params,
         ]);
+
+        return $this->defaultResultType($apiResponseData);
     }
 
     public function update($id, array $props)
     {
-        return $this->connect->doApiCall($this->name, 'create', [
+        $apiResponseData = $this->connect->doApiCall($this->name, 'update', [
             'entity_id' => (string)$id,
             'entity_props' => $props,
             'params' => $this->params,
         ]);
+
+        return $this->defaultResultType($apiResponseData);
     }
 
     public function triggerEvent(string $name, array $params = [])
@@ -82,10 +102,6 @@ class Entity
             'params' => $params ?: $this->params,
         ]);
 
-        if ($this->asRaw) {
-            return $apiResponseData['response'];
-        } else {
-            return $this->connectConfig->getSingleItemDataDecorator()->decorate($apiResponseData['response']);
-        }
+        return $this->defaultResultType($apiResponseData);
     }
 }
