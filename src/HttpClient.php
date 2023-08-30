@@ -2,6 +2,7 @@
 
 namespace Cierra\ConnectSdk;
 
+use Cierra\ConnectSdk\Exceptions\ApiErrorResponseException;
 use Cierra\ConnectSdk\Exceptions\CierraConnectInternalException;
 use Cierra\ConnectSdk\Exceptions\CierraConnectUnavailableException;
 use Cierra\ConnectSdk\Exceptions\ConnectionNotFoundException;
@@ -69,6 +70,8 @@ class HttpClient
                         throw new InvalidArgumentException($errorMessage);
                     case 'request_missed_param_exception':
                         throw new RequestMissedParamException($errorMessage);
+                    case 'adapter_request_exception':
+                        throw new ApiErrorResponseException($errorMessage);
                     default:
                         throw new CierraConnectInternalException($errorMessage);
                 }
