@@ -74,21 +74,21 @@ class Entity
         }
     }
 
-    public function create(array $props)
+    public function create(array $properties)
     {
         $apiResponseData = $this->connect->doApiCall($this->name, 'create', [
-            'entity_props' => $props,
+            'entity_props' => $properties,
             'params' => $this->params,
         ]);
 
         return $this->defaultResultType($apiResponseData);
     }
 
-    public function update($id, array $props)
+    public function update($id, array $properties)
     {
         $apiResponseData = $this->connect->doApiCall($this->name, 'update', [
             'entity_id' => (string)$id,
-            'entity_props' => $props,
+            'entity_props' => $properties,
             'params' => $this->params,
         ]);
 
