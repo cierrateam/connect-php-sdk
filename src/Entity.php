@@ -74,7 +74,7 @@ class Entity
         }
     }
 
-    public function create(array $properties)
+    public function create(array $properties = [])
     {
         $apiResponseData = $this->connect->doApiCall($this->name, 'create', [
             'entity_props' => $properties,
