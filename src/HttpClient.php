@@ -5,12 +5,14 @@ namespace Cierra\ConnectSdk;
 use Cierra\ConnectSdk\Exceptions\ApiErrorResponseException;
 use Cierra\ConnectSdk\Exceptions\CierraConnectInternalException;
 use Cierra\ConnectSdk\Exceptions\CierraConnectUnavailableException;
+use Cierra\ConnectSdk\Exceptions\ConnectionMissedKeyException;
 use Cierra\ConnectSdk\Exceptions\ConnectionNotFoundException;
 use Cierra\ConnectSdk\Exceptions\EntityActionNotFoundException;
 use Cierra\ConnectSdk\Exceptions\EntityNotFoundException;
 use Cierra\ConnectSdk\Exceptions\InvalidArgumentException;
 use Cierra\ConnectSdk\Exceptions\NotAuthorizedException;
 use Cierra\ConnectSdk\Exceptions\PlatformNotFoundException;
+use Cierra\ConnectSdk\Exceptions\RequestIncorrectParamException;
 use Cierra\ConnectSdk\Exceptions\RequestMissedParamException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -70,6 +72,10 @@ class HttpClient
                         throw new InvalidArgumentException($errorMessage);
                     case 'request_missed_param_exception':
                         throw new RequestMissedParamException($errorMessage);
+                    case 'request_incorrect_param_exception':
+                        throw new RequestIncorrectParamException($errorMessage);
+                    case 'connection_missed_key_exception':
+                        throw new ConnectionMissedKeyException($errorMessage);
                     case 'adapter_request_exception':
                         throw new ApiErrorResponseException($errorMessage);
                     default:
